@@ -1,14 +1,4 @@
 #!/bin/sh
-function move_image {
-	lfilename=$1
-	ldfilter=$2
-	echo $lfilename
-	shortname="${lfilename##*/}"
-	if [ $lfilename != "./$dfilter/$shortname" ]; then
-		echo "mv $lfilename";
-		mv $lfilename $ldfilter;
-	fi;
-}
 
 if [ `uname` == "Linux" ]
 then 
@@ -50,6 +40,12 @@ do
 
 
 #find . -iname "IPC_IPCamera_${dfilt}_*"
-ls -p IPC_IPCamera_${dfilt}_* | grep -v / | while read filename; do move_image $filename $dfilt; done;
+ls -p IPC_IPCamera_${dfilt}_* | grep -v / | while read filename; do \
+	shortname="${filename##*/}"; \
+	if [ $filename != "./$dfilt/$shortname" ]; then \
+		echo "mv $filename"; \
+		mv $filename $dfilt; \
+	fi; \
+done;
 
 done;
