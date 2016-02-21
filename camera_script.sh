@@ -27,19 +27,14 @@ fi
 
 function move_image {
 	echo $filename;
-	shortname=$(basename $filename);
+	shortname="${filename##*/}"; 
 	if [ $filename != "./$dfilt/$shortname" ]; then
 	echo "mv $filename";
 	mv $filename $dfilt;
 	fi;
 }
 
-#IFS=' ' read -a array <<< "$list_day"
-#array=(${list_day// / })
-#IFS=' '
-
 dfilt2=$dfilt
-#for c in "${array[@]}"
 
 for c in $list_day
 do
@@ -52,6 +47,8 @@ do
 	  echo "directory exist"
 	fi
 
-find . -iname "IPC_IPCamera_${dfilt}_*" | while read filename; do move_image $filename; done;
+
+#find . -iname "IPC_IPCamera_${dfilt}_*"
+ls -p IPC_IPCamera_${dfilt}_* | grep -v / | while read filename; do move_image $filename; done;
 
 done;
