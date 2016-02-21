@@ -1,4 +1,14 @@
 #!/bin/sh
+function move_image {
+	lfilename=$1
+	ldfilter=$2
+	echo $lfilename
+	shortname="${lfilename##*/}"
+	if [ $lfilename != "./$dfilter/$shortname" ]; then
+		echo "mv $lfilename";
+		mv $lfilename $ldfilter;
+	fi;
+}
 
 if [ `uname` == "Linux" ]
 then 
@@ -18,21 +28,12 @@ fi
 
 list_day="1"
 if [ ! -z "$2" ]; then
-  echo "Parameter 2 (\"List Days\"):" $2
-  list_day=$2
+	echo "Parameter 2 (\"List Days\"):" $2
+	list_day=$2
 else
-  echo "No parameter 2(\"List Days\")"
-  exit 1
+	echo "No parameter 2(\"List Days\")"
+	exit 1
 fi
-
-function move_image {
-	echo $filename;
-	shortname="${filename##*/}"; 
-	if [ $filename != "./$dfilt/$shortname" ]; then
-	echo "mv $filename";
-	mv $filename $dfilt;
-	fi;
-}
 
 dfilt2=$dfilt
 
@@ -49,6 +50,6 @@ do
 
 
 #find . -iname "IPC_IPCamera_${dfilt}_*"
-ls -p IPC_IPCamera_${dfilt}_* | grep -v / | while read filename; do move_image $filename; done;
+ls -p IPC_IPCamera_${dfilt}_* | grep -v / | while read filename; do move_image $filename $dfilt; done;
 
 done;
